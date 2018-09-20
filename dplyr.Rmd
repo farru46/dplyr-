@@ -1,0 +1,137 @@
+---
+title: "dplyr"
+author: "Syed Faraz Ali"
+date: "9/19/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Importing libraries 
+
+```{r libraries, message = FALSE}
+library(dplyr)
+library(ggplot2)
+library(data.table)
+```
+
+### Setting Working Directory
+
+```{r}
+setwd("~/Downloads")
+getwd()
+```
+
+### Reading the data 
+
+```{r cache = TRUE}
+flights <- tbl_df(read.csv("flights.csv", stringsAsFactors = FALSE))
+flights$date <- as.Date(flights$date)
+
+weather <- tbl_df(read.csv("weather.csv", stringsAsFactors = FALSE))
+weather$date <- as.Date(weather$date)
+
+planes <- tbl_df(read.csv("planes.csv", stringsAsFactors = FALSE))
+
+airports <- tbl_df(read.csv("airports.csv", stringsAsFactors = FALSE))
+```
+
+
+### Printing a portion of all the data 
+
+```{r}
+head(flights)
+head(weather)
+head(planes)
+head(airports)
+```
+
+
+```{r}
+summary(flights)
+```
+
+
+### The Five Verbs 
+
+* Filter : Keep rows matching criteria 
+* Select : Pick columns by name 
+* Arrange : Reorder rows 
+* Mutate : Add new variables 
+* Summarise : Reduce Variables 
+
+
+```{r}
+df <- data.frame(color = c("blue", "black","blue", "blue", "black"),
+                 value = 1:5)
+df
+```
+
+Using filter 
+
+```{r}
+filter (df, color == "blue")
+
+filter (df , value %in% c(3,4))
+```
+
+
+### Practicing filter 
+
+All the flights to SFO or OAK 
+
+```{r}
+sfo <- filter(flights, dest %in% c("SFO", "OAK"))
+print(sfo)
+```
+
+All the flights in January 
+
+```{r}
+jan <- filter(flights, month(flights$date) == 1)
+print(jan)
+```
+
+Flights that departed between midnight and 5 AM 
+
+```{r}
+filter(flights, hour >=0 & hour <= 5)
+```
+
+Flights that got delayed by more than hour 
+
+```{r}
+filter(flights, arr_delay > 60 )
+```
+
+
+Print out df 
+
+```{r}
+print(df)
+```
+
+Using select : select() keeps only the variables you mention; 
+
+```{r}
+select(df , value)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
